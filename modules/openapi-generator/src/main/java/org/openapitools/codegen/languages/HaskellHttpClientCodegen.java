@@ -36,6 +36,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -532,7 +533,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             supportingFiles.add(new SupportingFile("APIS.mustache", modulePath, "API.hs"));
         }
         supportingFiles.add(new SupportingFile("Core.mustache", modulePath, "Core.hs"));
-        supportingFiles.add(new SupportingFile("Model.mustache", modulePath, "Model.hs"));
+//        supportingFiles.add(new SupportingFile("Model.mustache", modulePath, "Model.hs"));
         supportingFiles.add(new SupportingFile("MimeTypes.mustache", modulePath, "MimeTypes.hs"));
 
         // logger
@@ -541,7 +542,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         supportingFiles.add(new SupportingFile("LoggingKatip.mustache", modulePath, "LoggingKatip.hs"));
 
         apiTemplateFiles.put("API.mustache", ".hs");
-        // modelTemplateFiles.put("Model.mustache", ".hs");
+        modelTemplateFiles.put("Model.mustache", ".hs");
 
         // lens
         if ((boolean) additionalProperties.get(PROP_GENERATE_LENSES)) {
@@ -1136,12 +1137,32 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     @Override
     public String toModelName(String name) {
-        return toTypeName("Model", name);
+        String[] parts = name.split("\\.");
+        return toTypeName("Model", parts[parts.length - 1]);
     }
 
     @Override
     public String toModelFilename(String name) {
-        return toTypeName("Model", name);
+        String[] parts = name.split("\\.");
+        if (parts.length <= 1)
+            return toTypeName("Model", name);
+
+        return Arrays.stream(parts)
+                .limit(parts.length - 1)
+                .map((p) -> toTypeName("Model", p))
+                .collect(Collectors.joining(File.separator));
+    }
+
+    @Override
+    public String toModelImport(String name) {
+        String[] parts = name.split("\\.");
+        if (parts.length <= 1)
+            return toTypeName("Model", name);
+
+        return Arrays.stream(parts)
+                .limit(parts.length - 1)
+                .map((p) -> toTypeName("Model", p))
+                .collect(Collectors.joining("."));
     }
 
     public String toApiName(String name) {
@@ -1159,6 +1180,11 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     @Override
     public String apiFileFolder() {
         return outputFolder + File.separator + this.modulePath + File.separator + "API";
+    }
+
+    @Override
+    public String modelFileFolder() {
+        return outputFolder + File.separator + this.modulePath + File.separator + "Model";
     }
 
     public String toTypeName(String prefix, String name) {

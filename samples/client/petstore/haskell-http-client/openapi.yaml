@@ -1239,6 +1239,23 @@ components:
       type: object
       xml:
         name: Tag
+    Foo.Bar:
+      properties:
+        name:
+          example: what
+          type: string
+      required:
+      - name
+      type: object
+    Lol.What:
+      properties:
+        bar:
+          $ref: '#/components/schemas/#definitions/Foo.Bar'
+        baz:
+          $ref: '#/components/schemas/#definitions/Pet'
+      required:
+      - bar
+      type: object
     Pet:
       example:
         photoUrls:

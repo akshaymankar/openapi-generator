@@ -223,6 +223,14 @@ genArrayTest n =
     <*> arbitraryReducedMaybe n -- arrayTestArrayArrayOfInteger :: Maybe [[Integer]]
     <*> arbitraryReducedMaybe n -- arrayTestArrayArrayOfModel :: Maybe [[ReadOnlyFirst]]
   
+instance Arbitrary Bar where
+  arbitrary = sized genBar
+
+genBar :: Int -> Gen Bar
+genBar n =
+  Bar
+    <$> arbitrary -- barName :: Text
+  
 instance Arbitrary Capitalization where
   arbitrary = sized genCapitalization
 
@@ -474,14 +482,6 @@ genReadOnlyFirst n =
     <$> arbitraryReducedMaybe n -- readOnlyFirstBar :: Maybe Text
     <*> arbitraryReducedMaybe n -- readOnlyFirstBaz :: Maybe Text
   
-instance Arbitrary SpecialModelName where
-  arbitrary = sized genSpecialModelName
-
-genSpecialModelName :: Int -> Gen SpecialModelName
-genSpecialModelName n =
-  SpecialModelName
-    <$> arbitraryReducedMaybe n -- specialModelNameSpecialPropertyName :: Maybe Integer
-  
 instance Arbitrary Tag where
   arbitrary = sized genTag
 
@@ -529,6 +529,15 @@ genUser n =
     <*> arbitraryReducedMaybe n -- userPassword :: Maybe Text
     <*> arbitraryReducedMaybe n -- userPhone :: Maybe Text
     <*> arbitraryReducedMaybe n -- userUserStatus :: Maybe Int
+  
+instance Arbitrary What where
+  arbitrary = sized genWhat
+
+genWhat :: Int -> Gen What
+genWhat n =
+  What
+    <$> arbitraryReduced n -- whatBar :: Bar
+    <*> arbitraryReducedMaybe n -- whatBaz :: Maybe Pet
   
 instance Arbitrary XmlItem where
   arbitrary = sized genXmlItem

@@ -1172,6 +1172,31 @@ definitions:
         type: string
     xml:
       name: Tag
+  Foo.Bar:
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        type: string
+        example: what
+  Foo.Baz:
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        type: string
+        example: no
+  Lol.What:
+    type: object
+    required:
+      - bar
+    properties:
+      bar:
+        $ref: '#definitions/Foo.Bar'
+      baz:
+        $ref: '#definitions/Pet'
   Pet:
     type: object
     required:

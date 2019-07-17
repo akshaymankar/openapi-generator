@@ -228,6 +228,15 @@ arrayTestArrayArrayOfModelL f ArrayTest{..} = (\arrayTestArrayArrayOfModel -> Ar
 
 
 
+-- * Bar
+
+-- | 'barName' Lens
+barNameL :: Lens_' Bar (Text)
+barNameL f Bar{..} = (\barName -> Bar { barName, ..} ) <$> f barName
+{-# INLINE barNameL #-}
+
+
+
 -- * Capitalization
 
 -- | 'capitalizationSmallCamel' Lens
@@ -716,15 +725,6 @@ readOnlyFirstBazL f ReadOnlyFirst{..} = (\readOnlyFirstBaz -> ReadOnlyFirst { re
 
 
 
--- * SpecialModelName
-
--- | 'specialModelNameSpecialPropertyName' Lens
-specialModelNameSpecialPropertyNameL :: Lens_' SpecialModelName (Maybe Integer)
-specialModelNameSpecialPropertyNameL f SpecialModelName{..} = (\specialModelNameSpecialPropertyName -> SpecialModelName { specialModelNameSpecialPropertyName, ..} ) <$> f specialModelNameSpecialPropertyName
-{-# INLINE specialModelNameSpecialPropertyNameL #-}
-
-
-
 -- * Tag
 
 -- | 'tagId' Lens
@@ -838,6 +838,20 @@ userPhoneL f User{..} = (\userPhone -> User { userPhone, ..} ) <$> f userPhone
 userUserStatusL :: Lens_' User (Maybe Int)
 userUserStatusL f User{..} = (\userUserStatus -> User { userUserStatus, ..} ) <$> f userUserStatus
 {-# INLINE userUserStatusL #-}
+
+
+
+-- * What
+
+-- | 'whatBar' Lens
+whatBarL :: Lens_' What (Bar)
+whatBarL f What{..} = (\whatBar -> What { whatBar, ..} ) <$> f whatBar
+{-# INLINE whatBarL #-}
+
+-- | 'whatBaz' Lens
+whatBazL :: Lens_' What (Maybe Pet)
+whatBazL f What{..} = (\whatBaz -> What { whatBaz, ..} ) <$> f whatBaz
+{-# INLINE whatBazL #-}
 
 
 

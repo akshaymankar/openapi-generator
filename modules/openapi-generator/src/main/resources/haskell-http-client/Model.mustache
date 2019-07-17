@@ -19,6 +19,9 @@ Module : {{baseModule}}.Model
 
 module {{baseModule}}.Model {{#x-hasImportMappings}}(module {{baseModule}}.Model, module {{baseModule}}.ImportMappings) {{/x-hasImportMappings}}where
 
+{{#imports}}import {{baseModule}}.Model.{{import}}
+{{/imports}}
+
 import {{baseModule}}.Core
 import {{baseModule}}.MimeTypes{{#x-hasImportMappings}}
 import {{baseModule}}.ImportMappings{{/x-hasImportMappings}}
