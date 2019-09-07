@@ -208,3 +208,5 @@ instance A.FromJSON a => MimeUnrender {{{x-mediaDataType}}} a where mimeUnrender
 -- instance MimeUnrender {{{x-mediaDataType}}} T.Text where mimeUnrender _ = undefined
 
 {{/x-unknownMimeTypes}}{{/x-hasUnknownMimeTypes}}
+
+class IsListOperation where

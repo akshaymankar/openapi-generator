@@ -102,3 +102,7 @@ instance MimeType mtype => Produces {{{vendorExtensions.x-operationType}}} mtype
 {{/produces}}{{/hasProduces}}{{^hasProduces}}
 instance Produces {{{vendorExtensions.x-operationType}}} MimeNoContent
 {{/hasProduces}}{{/operation}}{{/operations}}
+
+{{#vendorExtensions.x-kubernetesActionIsList}}
+instance IsListOperation {{{vendorExtensions.x-operationType}}}
+{{/vendorExtensions.x-kubernetesActionIsList}}

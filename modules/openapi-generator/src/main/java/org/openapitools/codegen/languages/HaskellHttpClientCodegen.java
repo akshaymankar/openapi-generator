@@ -119,6 +119,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     static final String X_ALLOW_NONUNIQUE_OPERATION_IDS = "x-allowNonUniqueOperationIds";
     static final String X_NEWTYPE = "x-newtype";
     static final String X_ENUM = "x-enum";
+    static final String X_KUBERNETES_ACTION = "x-kubernetesAction";
 
     protected ArrayList<Map<String, String>> unknownMimeTypes = new ArrayList<>();
     protected Map<String, Map<String, Object>> uniqueParamNameTypes = new HashMap<>();
@@ -705,6 +706,17 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
         processReturnType(op);
 
+        Object k8sAction = operation.getExtensions().get("x-kubernetes-action");
+        if(k8sAction != null) {
+            if(k8sAction.equals("list")) {
+                LOGGER.warn(op.operationId + " is a list action");
+                op.vendorExtensions.put(X_KUBERNETES_ACTION, k8sAction);
+            }
+        } else {
+            if(operation.getOperationId().equals("listNamespacedCustomObject"))
+                LOGGER.warn(op.operationId + " is a not a list action, everything=" + operation.toString());
+            LOGGER.warn(op.operationId + " is not an action, all extensions: " + operation.getExtensions().keySet().toString());
+        }
     }
 
     @Override
